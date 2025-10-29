@@ -1,13 +1,24 @@
-import "./App.css";
-import Dashboard from "./screens/Dashboard/Dashboard";
+import React from "react";
+import { Layout } from "antd";
+import Sidebar from "./screens/Components/Sidebar";
 import EmployeeManagement from "./screens/EmployeeManagement/EmployeeManagement";
-function App() {
+import "./App.css";
+
+const { Sider, Content } = Layout;
+
+const App = () => {
   return (
-    <div>
-      {/* <Dashboard /> */}
-      <EmployeeManagement />
-    </div>
+    <Layout style={{ minHeight: "100vh" }}>
+      <Sider>
+        <Sidebar />
+      </Sider>
+      <Layout>
+        <Content>
+          <EmployeeManagement />
+        </Content>
+      </Layout>
+    </Layout>
   );
-}
+};
 
 export default App;

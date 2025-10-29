@@ -1,0 +1,60 @@
+.employee-container {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 25px 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.employee-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.employee-header h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: #1b3b6f;
+}
+
+.employee-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.employee-filters {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  width: 40%;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.employee-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ant-table {
+  border-radius: 8px !important;
+}
+
+.ant-btn-primary {
+  background-color: #1b3b6f;
+  border-color: #1b3b6f;
+}
+
+.ant-btn-primary:hover {
+  background-color: #0d2761 !important;
+  border-color: #0d2761 !important;
+}
