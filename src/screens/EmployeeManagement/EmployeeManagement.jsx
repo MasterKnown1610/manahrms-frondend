@@ -1,65 +1,57 @@
 import React from "react";
-import {
-  Table,
-  Button,
-  Input,
-  Tag,
-  Dropdown,
-  Menu,
-  Pagination,
-} from "antd";
+import { Table, Button, Input, Tag, Dropdown, Menu, Pagination } from "antd";
 import { DownOutlined, PlusOutlined } from "@ant-design/icons";
 import "./EmployeeManagement.css";
 
+//constent data
+const data = [
+  {
+    key: "1",
+    name: "John Doe",
+    id: "EMP001",
+    department: "Engineering",
+    job: "Software Engineer",
+    status: "Active",
+    hireDate: "2023-01-15",
+  },
+  {
+    key: "2",
+    name: "Jane Smith",
+    id: "EMP002",
+    department: "Marketing",
+    job: "Marketing Manager",
+    status: "Active",
+    hireDate: "2022-05-20",
+  },
+  {
+    key: "3",
+    name: "Peter Jones",
+    id: "EMP003",
+    department: "Sales",
+    job: "Sales Representative",
+    status: "On Leave",
+    hireDate: "2021-11-10",
+  },
+  {
+    key: "4",
+    name: "Mary Johnson",
+    id: "EMP004",
+    department: "Human Resources",
+    job: "HR Coordinator",
+    status: "Active",
+    hireDate: "2023-08-01",
+  },
+  {
+    key: "5",
+    name: "David Williams",
+    id: "EMP005",
+    department: "Engineering",
+    job: "QA Tester",
+    status: "Terminated",
+    hireDate: "2020-03-12",
+  },
+];
 const EmployeeManagement = () => {
-  const data = [
-    {
-      key: "1",
-      name: "John Doe",
-      id: "EMP001",
-      department: "Engineering",
-      job: "Software Engineer",
-      status: "Active",
-      hireDate: "2023-01-15",
-    },
-    {
-      key: "2",
-      name: "Jane Smith",
-      id: "EMP002",
-      department: "Marketing",
-      job: "Marketing Manager",
-      status: "Active",
-      hireDate: "2022-05-20",
-    },
-    {
-      key: "3",
-      name: "Peter Jones",
-      id: "EMP003",
-      department: "Sales",
-      job: "Sales Representative",
-      status: "On Leave",
-      hireDate: "2021-11-10",
-    },
-    {
-      key: "4",
-      name: "Mary Johnson",
-      id: "EMP004",
-      department: "Human Resources",
-      job: "HR Coordinator",
-      status: "Active",
-      hireDate: "2023-08-01",
-    },
-    {
-      key: "5",
-      name: "David Williams",
-      id: "EMP005",
-      department: "Engineering",
-      job: "QA Tester",
-      status: "Terminated",
-      hireDate: "2020-03-12",
-    },
-  ];
-
   const columns = [
     {
       title: "Employee Name",
@@ -152,20 +144,6 @@ const EmployeeManagement = () => {
           placeholder="Search by name, ID, or department"
           className="search-input"
         />
-
-        <div className="filter-buttons">
-          <Dropdown overlay={departmentMenu}>
-            <Button>
-              Filter by Department <DownOutlined />
-            </Button>
-          </Dropdown>
-
-          <Dropdown overlay={statusMenu}>
-            <Button>
-              Filter by Status <DownOutlined />
-            </Button>
-          </Dropdown>
-        </div>
       </div>
 
       <Table

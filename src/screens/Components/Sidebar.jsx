@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   UserOutlined,
   DashboardOutlined,
@@ -9,6 +10,36 @@ import {
 import { Menu } from "antd";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Map routes to menu keys
+  const routeToKeyMap = {
+    "/dashboard": "1",
+    "/": "1",
+    "/employee-management": "2",
+    "/profile": "3",
+    "/settings": "4",
+    "/testing": "5",
+  };
+
+  const handleMenuClick = (e) => {
+    const routes = {
+      1: "/dashboard",
+      2: "/employee-management",
+      3: "/profile",
+      4: "/settings",
+      5: "/testing",
+    };
+    navigate(routes[e.key]);
+  };
+
+  const handleLogout = () => {
+    // Add your logout logic here
+    console.log("Logout clicked");
+    // For example: navigate('/login') or clear auth tokens
+  };
+
   return (
     <div
       style={{
@@ -35,7 +66,8 @@ const Sidebar = () => {
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={["2"]}
+          selectedKeys={[routeToKeyMap[location.pathname] || "1"]}
+          onClick={handleMenuClick}
           style={{
             background: "transparent",
             border: "none",
@@ -61,6 +93,11 @@ const Sidebar = () => {
               icon: <SettingOutlined />,
               label: "Settings",
             },
+            {
+              key: "5",
+              icon: <LogoutOutlined />,
+              label: "Testing",
+            },
           ]}
         />
       </div>
@@ -70,6 +107,7 @@ const Sidebar = () => {
           theme="dark"
           mode="inline"
           selectable={false}
+          onClick={handleLogout}
           style={{
             background: "transparent",
           }}
