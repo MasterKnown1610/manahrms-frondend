@@ -1,87 +1,49 @@
 import React from "react";
 import {
+  HomeOutlined,
   UserOutlined,
-  DashboardOutlined,
+  FileTextOutlined,
   SettingOutlined,
   LogoutOutlined,
-  TeamOutlined,
 } from "@ant-design/icons";
-import { Menu } from "antd";
+import "./Sidebar.css";
 
 const Sidebar = () => {
   return (
-    <div
-      style={{
-        height: "100%",
-        background: "linear-gradient(180deg, #001529 0%, #003366 100%)",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-      }}
-    >
-      <div>
-        <h2
-          style={{
-            color: "#fff",
-            textAlign: "center",
-            margin: "10px 0 30px 0",
-            fontSize: "20px",
-            fontWeight: "600",
-          }}
-        >
-          MANA HRMS
-        </h2>
-
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={["2"]}
-          style={{
-            background: "transparent",
-            border: "none",
-          }}
-          items={[
-            {
-              key: "1",
-              icon: <DashboardOutlined />,
-              label: "Dashboard",
-            },
-            {
-              key: "2",
-              icon: <TeamOutlined />,
-              label: "Employee Management",
-            },
-            {
-              key: "3",
-              icon: <UserOutlined />,
-              label: "Profile",
-            },
-            {
-              key: "4",
-              icon: <SettingOutlined />,
-              label: "Settings",
-            },
-          ]}
+    <div className="sidebar">
+      <div className="sidebar-header">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+          alt="Admin"
+          className="avatar"
         />
+        <h3>Admin</h3>
+        <p>HR Manager</p>
       </div>
 
-      <div style={{ padding: "20px" }}>
-        <Menu
-          theme="dark"
-          mode="inline"
-          selectable={false}
-          style={{
-            background: "transparent",
-          }}
-          items={[
-            {
-              key: "5",
-              icon: <LogoutOutlined />,
-              label: "Logout",
-            },
-          ]}
-        />
+      <div className="menu">
+        <div className="menu-item active">
+          <UserOutlined />
+          <span>Employee Management</span>
+        </div>
+        <div className="menu-item">
+          <HomeOutlined />
+          <span>Dashboard</span>
+        </div>
+        <div className="menu-item">
+          <FileTextOutlined />
+          <span>Recruitment</span>
+        </div>
+        <div className="menu-item">
+          <SettingOutlined />
+          <span>Settings</span>
+        </div>
       </div>
+
+      <button className="logout-btn">
+        <LogoutOutlined />
+        Logout
+      </button>
     </div>
   );
 };

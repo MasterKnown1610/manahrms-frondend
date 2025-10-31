@@ -1,0 +1,15 @@
+.custom-dropdown {
+  padding: 8px 12px;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.custom-dropdown:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 3px #007bff;
+}

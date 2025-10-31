@@ -1,194 +1,288 @@
-import React from "react";
+import React, { useState, useMemo } from "react";
 import {
   Table,
-  Button,
-  Input,
   Tag,
-  Dropdown,
-  Menu,
+  Input,
+  Button,
+  Select,
+  Space,
+  Upload,
+  message,
   Pagination,
 } from "antd";
-import { DownOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  SearchOutlined,
+  UploadOutlined,
+  DownloadOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
+import * as XLSX from "xlsx";
 import "./EmployeeManagement.css";
 
-const EmployeeManagement = () => {
-  const data = [
-    {
-      key: "1",
-      name: "John Doe",
-      id: "EMP001",
-      department: "Engineering",
-      job: "Software Engineer",
-      status: "Active",
-      hireDate: "2023-01-15",
-    },
-    {
-      key: "2",
-      name: "Jane Smith",
-      id: "EMP002",
-      department: "Marketing",
-      job: "Marketing Manager",
-      status: "Active",
-      hireDate: "2022-05-20",
-    },
-    {
-      key: "3",
-      name: "Peter Jones",
-      id: "EMP003",
-      department: "Sales",
-      job: "Sales Representative",
-      status: "On Leave",
-      hireDate: "2021-11-10",
-    },
-    {
-      key: "4",
-      name: "Mary Johnson",
-      id: "EMP004",
-      department: "Human Resources",
-      job: "HR Coordinator",
-      status: "Active",
-      hireDate: "2023-08-01",
-    },
-    {
-      key: "5",
-      name: "David Williams",
-      id: "EMP005",
-      department: "Engineering",
-      job: "QA Tester",
-      status: "Terminated",
-      hireDate: "2020-03-12",
-    },
-  ];
+const { Option } = Select;
+
+const initialData = [
+  {
+    key: "1",
+    name: "Karthikeya",
+    id: "EMP001",
+    department: "Engineering",
+    title: "Software Engineer",
+    status: "Active",
+    hireDate: "2023-01-15",
+  },
+  {
+    key: "2",
+    name: "Umesh",
+    id: "EMP002",
+    department: "Marketing",
+    title: "Marketing Manager",
+    status: "Active",
+    hireDate: "2022-05-20",
+  },
+  {
+    key: "3",
+    name: "Manashwini",
+    id: "EMP003",
+    department: "Sales",
+    title: "Sales Representative",
+    status: "On Leave",
+    hireDate: "2021-11-10",
+  },
+  {
+    key: "4",
+    name: "Kalpana",
+    id: "EMP004",
+    department: "Human Resources",
+    title: "HR Coordinator",
+    status: "Active",
+    hireDate: "2023-08-01",
+  },
+  {
+    key: "5",
+    name: "Srija",
+    id: "EMP005",
+    department: "Engineering",
+    title: "QA Tester",
+    status: "Terminated",
+    hireDate: "2020-03-12",
+  },
+];
+
+export default function EmployeeManagement() {
+  const [data, setData] = useState(initialData);
+  const [search, setSearch] = useState("");
+  const [deptFilter, setDeptFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [page, setPage] = useState(1);
+  const pageSize = 5;
+
+  // import handler (CSV/XLSX)
+  const handleFile = (file) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const workbook = XLSX.read(e.target.result, { type: "binary" });
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+        const imported = XLSX.utils.sheet_to_json(sheet, { defval: "" });
+
+        // Normalize field keys (case-insensitive mapping)
+        const formatted = imported.map((r, i) => ({
+          key: `i-${i}`,
+          name: r.name || r.Name || r["Employee Name"] || "",
+          id: r.id || r.ID || r["Employee ID"] || "",
+          department:
+            r.department || r.Department || r["Department"] || "",
+          title: r.title || r.Title || r["Job Title"] || "",
+          status: r.status || r.Status || r["Employment Status"] || "Active",
+          hireDate: r.hireDate || r["Hire Date"] || "",
+        }));
+
+        setData(formatted);
+        message.success(`${file.name} imported`);
+      } catch (err) {
+        console.error(err);
+        message.error("Failed to parse file");
+      }
+    };
+    reader.readAsBinaryString(file);
+    return false; // prevent upload
+  };
+
+  // export handler
+  const handleExport = () => {
+    if (!data.length) {
+      message.warning("No data to export");
+      return;
+    }
+    const worksheet = XLSX.utils.json_to_sheet(
+      data.map(({ key, ...rest }) => rest)
+    );
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Employees");
+    XLSX.writeFile(workbook, "EmployeeRecords.xlsx");
+    message.success("Exported EmployeeRecords.xlsx");
+  };
+
+  // download sample CSV
+  const handleSample = () => {
+    const sample = initialData;
+    const worksheet = XLSX.utils.json_to_sheet(sample);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sample");
+    XLSX.writeFile(workbook, "Sample_Employee_Format.xlsx");
+  };
+
+  // filtered + searched data
+  const filtered = useMemo(() => {
+    return data
+      .filter((r) =>
+        [r.name, r.id, r.department, r.title]
+          .join(" ")
+          .toLowerCase()
+          .includes(search.trim().toLowerCase())
+      )
+      .filter((r) => (deptFilter ? r.department === deptFilter : true))
+      .filter((r) => (statusFilter ? r.status === statusFilter : true));
+  }, [data, search, deptFilter, statusFilter]);
+
+  const pageData = filtered.slice((page - 1) * pageSize, page * pageSize);
 
   const columns = [
     {
-      title: "Employee Name",
+      title: "EMPLOYEE NAME",
       dataIndex: "name",
       key: "name",
-      render: (text) => <b>{text}</b>,
+      render: (t) => <span className="emp-name">{t}</span>,
     },
-    { title: "Employee ID", dataIndex: "id", key: "id" },
-    { title: "Department", dataIndex: "department", key: "department" },
-    { title: "Job Title", dataIndex: "job", key: "job" },
+    { title: "EMPLOYEE ID", dataIndex: "id", key: "id" },
+    { title: "DEPARTMENT", dataIndex: "department", key: "department" },
+    { title: "JOB TITLE", dataIndex: "title", key: "title" },
     {
-      title: "Employment Status",
+      title: "EMPLOYMENT STATUS",
       dataIndex: "status",
       key: "status",
-      render: (status) => {
-        let color =
-          status === "Active"
-            ? "green"
-            : status === "On Leave"
-            ? "gold"
-            : "red";
-        return <Tag color={color}>{status}</Tag>;
+      render: (s) => {
+        const color = s === "Active" ? "green" : s === "On Leave" ? "orange" : "red";
+        return (
+          <Tag color={color} className="status-tag">
+            {s}
+          </Tag>
+        );
       },
     },
-    { title: "Hire Date", dataIndex: "hireDate", key: "hireDate" },
+    { title: "HIRE DATE", dataIndex: "hireDate", key: "hireDate" },
     {
-      title: "Actions",
-      key: "action",
-      render: () => (
-        <a href="#" style={{ color: "#1677ff" }}>
+      title: "ACTIONS",
+      key: "actions",
+      render: (_, row) => (
+        <a className="view-link" onClick={() => message.info(`View ${row.name}`)}>
           View Profile
         </a>
       ),
     },
   ];
 
-  // ✅ CSV Export Function
-  const exportToCSV = () => {
-    const headers = [
-      "Employee Name,Employee ID,Department,Job Title,Employment Status,Hire Date\n",
-    ];
-    const rows = data.map(
-      (emp) =>
-        `${emp.name},${emp.id},${emp.department},${emp.job},${emp.status},${emp.hireDate}`
-    );
-    const csvContent = headers + rows.join("\n");
-
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.setAttribute("download", "Employee_Data.csv");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
-  const departmentMenu = (
-    <Menu>
-      <Menu.Item key="1">Engineering</Menu.Item>
-      <Menu.Item key="2">Marketing</Menu.Item>
-      <Menu.Item key="3">HR</Menu.Item>
-      <Menu.Item key="4">Sales</Menu.Item>
-    </Menu>
-  );
-
-  const statusMenu = (
-    <Menu>
-      <Menu.Item key="1">Active</Menu.Item>
-      <Menu.Item key="2">On Leave</Menu.Item>
-      <Menu.Item key="3">Terminated</Menu.Item>
-    </Menu>
-  );
-
   return (
-    <div className="employee-container">
-      <div className="employee-header">
-        <h2>Employee Management</h2>
-        <div className="employee-actions">
-          {/* ✅ Working Export Button */}
-          <Button onClick={exportToCSV}>Export to CSV</Button>
+    <div className="emp-wrapper">
+      {/* top boxed toolbar */}
+      <div className="emp-header-box">
+        <div className="emp-title">Employee Management</div>
 
-          <Button type="primary" icon={<PlusOutlined />}>
+        <div className="emp-actions">
+          <Upload beforeUpload={handleFile} showUploadList={false}>
+            <Button className="btn-outline" icon={<UploadOutlined />}>
+              Import CSV
+            </Button>
+          </Upload>
+
+          <Button className="btn-outline" icon={<DownloadOutlined />} onClick={handleExport}>
+            Export CSV
+          </Button>
+
+          <Button className="btn-primary" icon={<PlusOutlined />}>
             Add New Employee
           </Button>
         </div>
+
+        <div className="emp-filter-row">
+          <Input
+            prefix={<SearchOutlined />}
+            placeholder="Search by name, ID, or department"
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setPage(1);
+            }}
+            className="emp-search"
+          />
+
+          <div className="emp-filters">
+            <Select
+              placeholder="Filter by Department"
+              allowClear
+              style={{ width: 180 }}
+              value={deptFilter || undefined}
+              onChange={(v) => {
+                setDeptFilter(v || "");
+                setPage(1);
+              }}
+            >
+              {/* departments pulled from data */}
+              {[...new Set(data.map((d) => d.department))].map((d) => (
+                <Option key={d} value={d}>
+                  {d}
+                </Option>
+              ))}
+            </Select>
+
+            <Select
+              placeholder="Filter by Status"
+              allowClear
+              style={{ width: 180 }}
+              value={statusFilter || undefined}
+              onChange={(v) => {
+                setStatusFilter(v || "");
+                setPage(1);
+              }}
+            >
+              <Option value="Active">Active</Option>
+              <Option value="On Leave">On Leave</Option>
+              <Option value="Terminated">Terminated</Option>
+            </Select>
+          </div>
+        </div>
       </div>
 
-      <div className="employee-filters">
-        <Input.Search
-          placeholder="Search by name, ID, or department"
-          className="search-input"
+      {/* table card */}
+      <div className="emp-table-card">
+        <Table
+          columns={columns}
+          dataSource={pageData}
+          pagination={false}
+          bordered
+          rowKey="key"
         />
 
-        <div className="filter-buttons">
-          <Dropdown overlay={departmentMenu}>
-            <Button>
-              Filter by Department <DownOutlined />
-            </Button>
-          </Dropdown>
+        <div className="emp-footer-row">
+          <Button className="btn-outline">Bulk Actions</Button>
 
-          <Dropdown overlay={statusMenu}>
-            <Button>
-              Filter by Status <DownOutlined />
-            </Button>
-          </Dropdown>
-        </div>
-      </div>
+          <div className="paging-area">
+            <div className="showing">Showing {(page - 1) * pageSize + 1} to {Math.min(page * pageSize, filtered.length)} of {filtered.length} results</div>
 
-      <Table
-        columns={columns}
-        dataSource={data}
-        pagination={false}
-        bordered
-        style={{ marginBottom: "20px" }}
-      />
-
-      {/* ✅ Pagination with Prev / Next */}
-      <div className="employee-footer">
-        <div>
-          <Button>Bulk Actions</Button>
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <Button>Prev</Button>
-          <Pagination current={1} total={20} pageSize={10} simple />
-          <Button>Next</Button>
+            <Pagination
+              current={page}
+              pageSize={pageSize}
+              total={filtered.length}
+              showSizeChanger={false}
+              onChange={(p) => setPage(p)}
+              simple={false}
+              showQuickJumper={false}
+            />
+          </div>
         </div>
       </div>
     </div>
   );
-};
-
-export default EmployeeManagement;
+}
