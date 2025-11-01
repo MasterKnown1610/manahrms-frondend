@@ -6,6 +6,7 @@ import { FaPeopleGroup } from "react-icons/fa6";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import "./Dashboard.css";
 
+// commit
 const Dashboard = () => {
   const Employees = [
     { name: "Karthik.K", role: "Founder" },
