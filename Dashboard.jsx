@@ -33,10 +33,10 @@ export default function Dashboard() {
   ];
 
   const sampleEmployees = [
-    { name: "Umesh", dept: "Hr", join: "2023-02-14", status: "Active" },
-    { name: "Kalpana", dept: "HR", join: "2021-11-01", status: "On Leave" },
-    { name: "Manaswini", dept: "Finance", join: "2022-05-20", status: "Active" },
-    { name: "Karthik", dept: "Founder", join: "2024-01-12", status: "Pending" },
+    { name: "Apple", dept: "Hr", join: "2023-02-14", status: "Active" },
+    { name: "Banana", dept: "HR", join: "2021-11-01", status: "On Leave" },
+    { name: "Mango", dept: "Finance", join: "2022-05-20", status: "Active" },
+    { name: "Orange", dept: "Founder", join: "2024-01-12", status: "Pending" },
   ];
 
   return (

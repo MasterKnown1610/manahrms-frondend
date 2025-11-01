@@ -51,13 +51,13 @@
 
 .icon-button {
   font-size: 20px;
-  color: #64748b;
+  color: hsl(203, 94%, 25%);
   cursor: pointer;
   transition: color 0.2s ease;
 }
 
 .icon-button:hover {
-  color: #1e293b;
+  color: #207aae;
 }
 
 /* Cards Grid */
@@ -89,10 +89,13 @@
 
 .stat-icon {
   font-size: 32px;
-  color: #64748b;
+  color: hsl(203, 94%, 25%);
   margin-bottom: 12px;
 }
 
+.stat-icon:hover{
+  color: #207aae
+}
 .stat-value {
   font-size: 32px;
   font-weight: 700;
@@ -131,7 +134,7 @@
 
 .stats-icon {
   font-size: 48px;
-  color: #3b82f6;
+  color: hsl(203, 94%, 25%);
   margin-bottom: 16px;
 }
 
@@ -167,7 +170,7 @@
 }
 
 .circle {
-  stroke: #3b82f6;
+  stroke: hsl(203, 94%, 25%);
   stroke-linecap: round;
   animation: progress 1s ease-out forwards;
 }

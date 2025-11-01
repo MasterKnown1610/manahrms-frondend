@@ -1,4 +1,5 @@
 import React from "react";
+// import Dashboard from "../../../Dashboard";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   UserOutlined,
@@ -44,7 +45,7 @@ const Sidebar = () => {
     <div
       style={{
         height: "100%",
-        background: "linear-gradient(180deg, #001529 0%, #003366 100%)",
+        background: "linear-gradient(#26658c, #0e2644ff)",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",

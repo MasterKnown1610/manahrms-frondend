@@ -1,19 +1,18 @@
 import React from "react";
-import { FaBell, FaMoon } from "react-icons/fa";
+import { FaBell, FaEmpire, FaMoon } from "react-icons/fa";
 import { FiUsers } from "react-icons/fi";
-import { BiCube, BiCart, BiPackage } from "react-icons/bi";
+import {BiCart, BiPackage } from "react-icons/bi";
+import { FaPeopleGroup } from "react-icons/fa6";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import "./Dashboard.css";
 
 const Dashboard = () => {
-  const topStores = [
-    { name: "Gateway str", sales: "874k" },
-    { name: "The Rustic Fox", sales: "721k" },
-    { name: "Velvet Vine", sales: "598k" },
-    { name: "Blue Harbor", sales: "506k" },
-    { name: "Nebula Novelties", sales: "395k" },
-    { name: "Crimson Crafters", sales: "344k" },
-    { name: "Tidal Treasures", sales: "274k" },
+  const Employees = [
+    { name: "Karthik.K", role: "Founder" },
+    { name: "Umesh", role: "FrontEnd Devepoler" },
+    { name: "Kalpana", role: "FrontEnd Devepoler" },
+    { name: "Manaswini", role: "BackEnd Devepoler" },
+    { name: "Kalpana", role: "FrontEnd Devepoler" },
   ];
 
   return (
@@ -22,11 +21,7 @@ const Dashboard = () => {
         <h1 className="dashboard-title">Dashboard Overview</h1>
         <div className="dashboard-header-actions">
           <div className="search-container">
-            <input
-              type="text"
-              placeholder="Search..."
-              className="search-input"
-            />
+            
           </div>
           <FaMoon className="icon-button" />
           <FaBell className="icon-button" />
@@ -36,15 +31,9 @@ const Dashboard = () => {
       {/* Overview Cards */}
       <div className="cards-grid">
         {[
-          { icon: BiCube, label: "Total Products", value: 5483 },
-          { icon: BiCart, label: "Orders", value: 2859 },
-          { icon: BiPackage, label: "Total Stock", value: 5483 },
-          {
-            icon: AiOutlineShoppingCart,
-            label: "Out of Stock",
-            value: 38,
-            highlight: true,
-          },
+          { icon: FaPeopleGroup, label: "Total Employees", value: 10 },
+          { icon: BiCart, label: "Presented Employees", value: 7 },
+          { icon: BiPackage, label: "Absent Employees", value: 3 },
         ].map((card, idx) => (
           <div
             key={idx}
@@ -62,7 +51,7 @@ const Dashboard = () => {
         {/* Total Users */}
         <div className="stats-card">
           <FiUsers className="stats-icon" />
-          <p className="stats-value">583 K</p>
+          <p className="stats-value">10</p>
           <p className="stats-label">Total Employees</p>
         </div>
 
@@ -91,12 +80,12 @@ const Dashboard = () => {
               />
             </svg>
             <div className="chart-center">
-              <p className="chart-percentage">68%</p>
+              <p className="chart-percentage">72%</p>
             </div>
           </div>
           <div className="chart-legend">
-            <p>Active: 68%</p>
-            <p>On Leave: 32%</p>
+            <p>Active: 72%</p>
+            <p>On Leave: 28%</p>
           </div>
         </div>
 
@@ -104,10 +93,10 @@ const Dashboard = () => {
         <div className="stats-card">
           <h2 className="stats-card-title">Top Departments</h2>
           <ul className="list-items">
-            {topStores.map((store, idx) => (
+            {Employees.map((emp, idx) => (
               <li key={idx} className="list-item">
-                <span>{store.name}</span>
-                <span className="list-value">{store.sales}</span>
+                <span>{emp.name}</span>
+                <span className="list-value">{emp.role}</span>
               </li>
             ))}
           </ul>
