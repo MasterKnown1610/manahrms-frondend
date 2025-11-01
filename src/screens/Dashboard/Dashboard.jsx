@@ -12,7 +12,6 @@ const Dashboard = () => {
     { name: "Umesh", role: "FrontEnd Devepoler" },
     { name: "Kalpana", role: "FrontEnd Devepoler" },
     { name: "Manaswini", role: "BackEnd Devepoler" },
-    { name: "Kalpana", role: "FrontEnd Devepoler" },
   ];
 
   return (
