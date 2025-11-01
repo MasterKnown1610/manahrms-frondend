@@ -9,7 +9,7 @@ import "./Dashboard.css";
 // commit
 const Dashboard = () => {
   const Employees = [
-    { name: "Karthik.K", role: "Founder" },
+    { name: "Karthik.K", role: "Founder CEO" },
     { name: "Umesh", role: "Frontend Devepoler" },
     { name: "Kalpana", role: "Frontend Devepoler" },
     { name: "Manaswini", role: "Backend Devepoler" },
