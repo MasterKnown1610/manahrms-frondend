@@ -10,9 +10,9 @@ import "./Dashboard.css";
 const Dashboard = () => {
   const Employees = [
     { name: "Karthik.K", role: "Founder" },
-    { name: "Umesh", role: "FrontEnd Devepoler" },
-    { name: "Kalpana", role: "FrontEnd Devepoler" },
-    { name: "Manaswini", role: "BackEnd Devepoler" },
+    { name: "Umesh", role: "Frontend Devepoler" },
+    { name: "Kalpana", role: "Frontend Devepoler" },
+    { name: "Manaswini", role: "Backend Devepoler" },
   ];
 
   return (
